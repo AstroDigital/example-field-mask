@@ -34,29 +34,17 @@ area is a rectangle representing the full area of the world, and the inner
 ring (hole) is the area of each field.
 
 Begin by mapping over the NDVI results data to create an array of GeoJSON
-where the geometry of each feature consists of a -180/-90 by 180/90
+where the geometry of each feature consists of a -180/-90 to 180/90
 coordinate array and the original field's coordinates. */
 let fieldsJson = adNdviData.results.map((field) => {
   const id = field.id;
   field = field.value;
-
-  field = {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: field.geometry.coordinates
-    },
-    properties: {
-      id: id}
-  }
-
-  /* Save the original field boundaries as a property, so that they can later
-  // be used to focus on the field. */
+  /* Save the original field boundaries as a property, so that they can
+  // later be used to focus on the field. */
   field.properties.bounds = L.geoJson(field).getBounds();
   field.properties.id = id;
-
   /* Assemble the mask from a coordinate array representing the world's area
-  and each field's native geometry */
+  and each field's native geometry. */
   field.geometry.coordinates = [
     [
       [-180, -90],
@@ -67,7 +55,6 @@ let fieldsJson = adNdviData.results.map((field) => {
     ],
     field.geometry.coordinates[0]
   ]
-
   return field;
 })
 
