@@ -58,6 +58,10 @@ let fieldsJson = adNdviData.results.map((field) => {
   return field;
 })
 
+// Hide the map's container on initial load.
+const mapContainer = document.getElementById('map');
+mapContainer.style.visibility = 'hidden';
+
 const mbAccessToken = 'pk.eyJ1IjoiYXN0cm9kaWdpdGFsIiwiYSI6ImNVb1B0ZkEifQ.IrJoULY2VMSBNFqHLrFYew';
 const ndviBasemap = 'astrodigital.56effcd44936180007240bae';
 // Call the setupMap function with the NDVI basemap as one of its arguments.
@@ -66,6 +70,10 @@ const map = setupMap(mbAccessToken, ndviBasemap);
 // Cycle through fields, sending one at a time to the focusOnFeature function.
 let displayIndex = 0;
 setInterval(() => {
+  // Show the map container, if hidden.
+  if (mapContainer.style.visibility === 'hidden') {
+    mapContainer.style.visibility = 'visible';
+  };
   // Remove previous mask, if applicable.
   map.eachLayer((lyr) => {if (!lyr._tiles) map.removeLayer(lyr)})
   // Focus on feature.
