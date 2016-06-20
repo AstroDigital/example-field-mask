@@ -1,13 +1,14 @@
 # Masking Astro Digital NDVI Data In A Map
 [Working Example](https://rawgit.com/AstroDigital/example-field-mask/master/example/index.html) | [Primary Code](https://github.com/AstroDigital/example-field-mask/blob/master/example/ad-masked-map.js)
+
 ## Overview
-This tutorial describes synthesizing Astro Digital raster and vector data, to mask and bring focus to individual features in the raster product within a Leaflet map. It assumes a basic understanding of Leaflet mapping boilerplate as demonstrated in the [Basic Astro Digital NDVI Vector Map Setup](https://github.com/AstroDigital/example-ndvi-vector) tutorial, which describes the basics of map initialization in more detail. Other topics in this series include:
+This tutorial describes synthesizing Astro Digital raster and vector data, to mask and bring focus to individual features in the raster product within a Leaflet map. It assumes a basic understanding of Leaflet mapping boilerplate as demonstrated in the [Basic Astro Digital NDVI vector map setup](https://github.com/AstroDigital/example-ndvi-vector) tutorial, which describes the basics of map initialization in more detail. Other topics in this series include:
 - [Symbolizing the NDVI vector product map](https://github.com/AstroDigital/example-ndvi-vector-symbology) and
 - [Graphing the NDVI values using Chart.js, and including precipitation as a secondary datasource](https://github.com/AstroDigital/example-ndvi-chart-plus).
 
 ## Procedure
 ### HTML
-Begin by writing basic boilerplate HTML, containing a div called `#map` styled to fill the window, and including the Leaflet script and css support files, as shown in this [example](https://github.com/AstroDigital/example-field-mask/blob/master/example/index.html).
+Begin by writing basic boilerplate HTML, containing a div called `#map` styled to fill the window, and including the Leaflet script and css support files in the header and links to the support data in the body, as shown in this [example](https://github.com/AstroDigital/example-field-mask/blob/master/example/index.html).
 
 The NDVI values response data is imported as an external script, and the example program itself is located in the [ad-masked-map.js](https://github.com/AstroDigital/example-field-mask/blob/master/example/ad-masked-map.js) file.
 

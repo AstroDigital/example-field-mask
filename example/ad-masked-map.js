@@ -78,6 +78,6 @@ setInterval(() => {
   map.eachLayer((lyr) => {if (!lyr._tiles) map.removeLayer(lyr)})
   // Focus on feature.
   focusOnFeature(fieldsJson[displayIndex])
-  // Repeat loop after all fields have been cycled through.
+  // Increment field, or repeat loop after all fields have been cycled through.
   displayIndex = (displayIndex < fieldsJson.length - 1) ? displayIndex + 1 : 0;
 }, 2500);
