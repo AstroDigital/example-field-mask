@@ -1,21 +1,19 @@
 # Masking Astro Digital NDVI Data In A Map
-[Working Example](https://rawgit.com/AstroDigital/example-field-mask/master/example/index.html) | [Primary Code](https://github.com/AstroDigital/example-field-mask/blob/master/example/ad-masked-map.js)
+
+### [Working Example](https://rawgit.com/AstroDigital/example-field-mask/master/example/index.html) | [Primary Code](https://github.com/AstroDigital/example-field-mask/blob/master/example/ad-masked-map.js)
+
+[![Demonstration of this code](demo.png)](https://rawgit.com/AstroDigital/example-field-mask/master/example/index.html)
 
 ## Overview
-This tutorial describes synthesizing Astro Digital raster and vector data, to mask and bring focus to individual features in the raster product within a Leaflet map. It assumes a basic understanding of Leaflet mapping boilerplate as demonstrated in the [Basic Astro Digital NDVI vector map setup](https://github.com/AstroDigital/example-ndvi-vector) tutorial, which describes the basics of map initialization in more detail. Other topics in this series include:
+This tutorial describes using Astro Digital raster and vector data to mask and bring focus to individual features in the raster product within a Leaflet map. Be sure to check out the [Basic Astro Digital NDVI vector map setup](https://github.com/AstroDigital/example-ndvi-vector) tutorial, which describes the basics of map initialization in more detail. Other topics in this series include:
 - [Symbolizing the NDVI vector product map](https://github.com/AstroDigital/example-ndvi-vector-symbology) and
 - [Graphing the NDVI values using Chart.js, and including precipitation as a secondary datasource](https://github.com/AstroDigital/example-ndvi-chart-plus).
 
-## Procedure
-### HTML
-Begin by writing basic boilerplate HTML, containing a div called `#map` styled to fill the window, and including the Leaflet script and css support files in the header and links to the support data in the body, as shown in this [example](https://github.com/AstroDigital/example-field-mask/blob/master/example/index.html).
+## Summary
 
-The NDVI values response data is imported as an external script, and the example program itself is located in the [ad-masked-map.js](https://github.com/AstroDigital/example-field-mask/blob/master/example/ad-masked-map.js) file.
-
-### Javascript
 A feature mask can be created from the NDVI values geometry described in the [basic tutorial](https://github.com/AstroDigital/example-ndvi-vector) by developing a multi-polygon where the outer ring is a rectangle representing the full area of the world, and the inner ring (hole) is the geometry of each feature.
 
-Begin by mapping over the `results` attribute of the NDVI response data to create an array of GeoJSON where the geometry of each feature is a composite array consisting of a -180/-90 to 180/90 coordinate array and the original features's coordinate array. The result will be a polygon covering the entire surface of the world, with a tiny hole cut out of it in the shape of the input feature:
+Begin by mapping over the `results` attribute of the [Astro Digital's NDVI values API response](https://docs.astrodigital.com/docs/results) data to create an array of GeoJSON where the geometry of each feature is a composite array consisting of a -180/-90 to 180/90 coordinate array and the original features's coordinate array. The result will be a polygon covering the entire surface of the world, with a tiny hole cut out of it in the shape of the input feature:
 ```js
 let fieldsJson = adNdviData.results.map((field) => {
   const id = field.id;
@@ -39,21 +37,8 @@ let fieldsJson = adNdviData.results.map((field) => {
   return field;
 })
 ```
-At this point, we can initialize a map component with a raster Astro Digital NDVI image as the basemap, using the following code:
-```js
-const setupMap = (mbAccessToken, ndviBasemap) => {
-  const basemapUrl = `http://api.tiles.mapbox.com/v4/${ndviBasemap}/{z}/{x}/{y}.png`;
-  const map = L.map('map').setView([0, 0], 0);
-  L.tileLayer(`${basemapUrl}?access_token=${mbAccessToken}`).addTo(map);
-  return map;
-}
-const mbAccessToken = 'pk.eyJ1IjoiYXN0cm9kaWdpdGFsIiwiYSI6ImNVb1B0ZkEifQ.IrJoULY2VMSBNFqHLrFYew';
-// Astro Digital NDVI image ID
-const ndviBasemap = 'astrodigital.56effcd44936180007240bae';
-// Call the setupMap function with the NDVI basemap as one of its arguments.
-const map = setupMap(mbAccessToken, ndviBasemap);
-```
-With the basemap initialized, for the purposes of this demo we will wrap the masking function calls in a loop in order to cycle through each feature, as shown below:
+
+After creating a basemap, for this demo we will wrap the masking function calls in a loop to cycle through each feature, as shown below:
 ```js
 // Cycle through features, sending one at a time to the focusOnFeature function.
 let displayIndex = 0;
@@ -77,3 +62,5 @@ const focusOnFeature = (fieldJson) => {
   map.fitBounds(fieldJson.properties.bounds);
 }
 ```
+
+Check out [the source code for more details!](example/ad-masked-map.js)

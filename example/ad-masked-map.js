@@ -1,13 +1,14 @@
+/* global L, adNdviData */
 'use strict'
 
 /* Function to focus on a particular feature by converting the inverse-mask
 GeoJSON to a vector mask, and zooming to the field's footprint. */
 const focusOnFeature = (fieldJson) => {
   L.geoJson(fieldJson, {
-      fillOpacity: 1,
-      fillColor: '#000',
-      weight: 0
-    }).addTo(map);
+    fillOpacity: 1,
+    fillColor: '#000',
+    weight: 0
+  }).addTo(map);
   map.fitBounds(fieldJson.properties.bounds);
 }
 
@@ -19,8 +20,6 @@ const setupMap = (mbAccessToken, ndviBasemap) => {
   L.tileLayer(`${basemapUrl}?access_token=${mbAccessToken}`).addTo(map);
   return map;
 }
-
-
 
 / !!! PROGRAM BEGINS HERE !!! /
 
@@ -75,7 +74,7 @@ setInterval(() => {
     mapContainer.style.visibility = 'visible';
   };
   // Remove previous mask, if applicable.
-  map.eachLayer((lyr) => {if (!lyr._tiles) map.removeLayer(lyr)})
+  map.eachLayer((lyr) => { if (!lyr._tiles) map.removeLayer(lyr) })
   // Focus on feature.
   focusOnFeature(fieldsJson[displayIndex])
   // Increment field, or repeat loop after all fields have been cycled through.
